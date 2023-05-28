@@ -1,4 +1,5 @@
 /* eslint-disable */
+import React from 'react';
 
 import logo from './logo.svg';
 import './App.css';
@@ -56,6 +57,11 @@ function App() {
               }}>👍</span> {따봉}
             </h4>
             <p>2월 17일 발행</p>
+            <button onClick={()=>{ 
+                let copy = [...글제목];
+                copy.splice(i,1);
+                글제목변경(copy);
+              }}>삭제</button>
           </div>)
         })
       }
@@ -64,7 +70,11 @@ function App() {
           입력값변경(e.target.value);
           console.log(입력값);
             }}/>
-        
+        <button onClick={()=> {
+          let copy = [...글제목];
+          copy.unshift(입력값);
+          글제목변경(copy);
+          }}>버튼</button>
 
       {
         modal == true ? <Modal 글제목변경={글제목변경} 
@@ -72,7 +82,7 @@ function App() {
       }
 
 
-
+      <Modal2></Modal2>
 
 
     </div>
@@ -96,4 +106,26 @@ function Modal(props) {
     </div>
   )
 }
+  
+class Modal2 extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      name : 'kim',
+      age : 20
+    }
+  }
+  render(){
+    return (
+      <div>안녕 { this.state.age } 
+      <button onClick={()=>{
+        this.setState({age : 21 })
+      }}>버튼</button>
+      </div>
+      
+    )
+  }
+}
+
+
 export default App;
