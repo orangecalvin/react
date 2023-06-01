@@ -8,16 +8,13 @@ import { useState } from 'react';
 function App() {
   
   let [글제목, 글제목변경] = useState(['남자 코트 추천', '수유 우동 맛집', '파이썬독학']);
-  let [따봉, 따봉변경] = useState(0);
+  let [따봉, 따봉변경] = useState([0, 0, 0, 0]);
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
   let [입력값, 입력값변경] = useState('');
 
-
-  
-
-
   return (
+
     <div className="App">
       <div className="black-nav">
         <h4>리엑트 블로그</h4>
@@ -49,12 +46,15 @@ function App() {
       </div> */}
 
       {
-        글제목.map(function (a, i) {
-          return (<div className="list" key={i}>
+        글제목.map((a, i) => 
+            (<div className="list" key={i}>
             <h4 onClick={() => { setModal(!modal); setTitle(i) }}>{글제목[i]}
               <span onClick={(e) => {
-                e.stopPropagation(); 따봉변경(따봉+1)
-              }}>👍</span> {따봉}
+                e.stopPropagation();
+                const 따봉copy = [...따봉];
+                따봉copy[i]++;
+                따봉변경(따봉copy);
+              }}>👍</span> { 따봉[i] }
             </h4>
             <p>2월 17일 발행</p>
             <button onClick={()=>{ 
@@ -63,7 +63,7 @@ function App() {
                 글제목변경(copy);
               }}>삭제</button>
           </div>)
-        })
+        )
       }
 
         <input onChange={(e)=>{
@@ -77,7 +77,7 @@ function App() {
           }}>버튼</button>
 
       {
-        modal == true ? <Modal 글제목변경={글제목변경} 
+        modal === true ? <Modal 글제목변경={글제목변경} 
         color={'orange'} 글제목={글제목} title={title} setTitle={setTitle} /> : null
       }
 
@@ -91,16 +91,17 @@ function App() {
 
 
 function Modal(props) {
+  const {title: 테스트, 글제목, 글제목변경, color} = props;
   return (
-    <div className='modal' style={{background : props.color}}>
+    <div className='modal' style={{background : color}}>
     
-      <h4>{ props.글제목[props.title] }</h4>
+      <h4>{ 글제목[테스트] }</h4>
       <p>날짜</p>
       <p>상세내용</p>
       <button onClick={() => {
-        let copy = [...props.글제목];
+        const copy = [...글제목];
         copy[0] = '여자코트 추천';
-        props.글제목변경(copy);
+        글제목변경(copy);
       }}>글수정</button>
       
     </div>
